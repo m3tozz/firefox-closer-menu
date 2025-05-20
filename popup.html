@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <style>
+    :root {
+      --bg-color: white;
+      --text-color: black;
+      --button-bg: #f0f0f0;
+      --button-text: black;
+    }
+
+    body.dark {
+      --bg-color: #222;
+      --text-color: white;
+      --button-bg: #444;
+      --button-text: white;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      transition: 0.3s;
+      font-family: sans-serif;
+      text-align: center;
+      padding: 10px;
+    }
+
+    button {
+      display: block;
+      width: 220px;
+      margin: 6px auto;
+      padding: 10px;
+      font-size: 14px;
+      cursor: pointer;
+      background-color: var(--button-bg);
+      color: var(--button-text);
+      border: none;
+      border-radius: 4px;
+    }
+
+    .theme-toggle {
+      margin-top: 20px;
+      font-size: 13px;
+      font-style: italic;
+      cursor: pointer;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+  <button id="close-others">Close Other Tabs</button>
+  <button id="close-left">Close Tabs to the Left</button>
+  <button id="close-right">Close Tabs to the Right</button>
+  <button id="close-other-windows">Close Other Windows</button>
+
+  <div class="theme-toggle" id="theme-switch"></div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
