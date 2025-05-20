@@ -65,4 +65,12 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   });
+
+  document.getElementById("close-all").addEventListener("click", () => {
+    chrome.tabs.query({}, (tabs) => {
+      const ids = tabs.filter(tab => !tab.pinned).map(tab => tab.id);
+      chrome.tabs.remove(ids);
+      window.close();
+    });
+  });
 });
