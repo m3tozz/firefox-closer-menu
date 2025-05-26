@@ -18,19 +18,7 @@ Tab Closer is a simple Firefox extension that helps you manage your browser tabs
 
 # Installation
 
-> [!NOTE]
->It will be added to the <a href="https://addons.mozilla.org/">firefox addons</a> soon.
-
-<details>
-  <summary>You can try this add-on as a temporary extension by following these steps</summary>
-
-1. [Install the zip file](https://codeload.github.com/m3tozz/firefox-closer-menu/zip/refs/tags/v1.1.0) and extract it.  
-2. Go to `about:debugging#/runtime/this-firefox` in the Firefox address bar.  
-3. Click **Load Temporary Add-on**.  
-4. Select the `manifest.json` file from the extracted extension folder.  
-5. The extension will be installed and can be found in the extensions (puzzle piece) icon area.
-
-</details>
+<a href="https://addons.mozilla.org/tr/firefox/addon/closer-menu/"> Install from addons.mozilla.org</a>
 
 ----------------------------------------------------------------------
 
