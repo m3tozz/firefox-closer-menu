@@ -1,15 +1,22 @@
 {
   "manifest_version": 3,
   "name": "Tab Closer Menu",
-  "version": "1.1",
+  "version": "1.1.1",
   "description": "Close Firefox tabs and other Firefox windows",
   "permissions": ["tabs"],
+  "optional_permissions": ["windows"],
+  "update_url": "https://seninsiten.com/updates.json",
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
-    "16": "icons/icon16.png",
-    "48": "icons/icon48.png",
-    "128": "icons/icon128.png"
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "tabclosermenu@example.com"
     }
   }
 }
