@@ -1,4 +1,3 @@
-
 function includePinned() {
   return document.getElementById("include-pinned").checked;
 }
@@ -48,24 +47,16 @@ themeButton.addEventListener('click', () => {
   const dark = !document.body.classList.contains('dark');
   setTheme(dark);
 });
+
 window.addEventListener('DOMContentLoaded', () => {
   const savedTheme = localStorage.getItem('darkTheme') === '1';
   setTheme(savedTheme);
 });
 
-function renderLinks() {
-  const list = document.getElementById("link-list");
-  list.innerHTML = "";
-  const links = JSON.parse(localStorage.getItem("savedLinks") || "[]");
-  links.forEach(url => {
-    const a = document.createElement("a");
-    a.href = url;
-    a.textContent = url.replace(/^https?:\/\//, "").slice(0, 30);
-    a.target = "_blank";
-    a.style.display = "block";
-    a.style.marginBottom = "4px";
-    a.style.color = "var(--text-color)";
-    a.style.fontSize = "13px";
-    list.appendChild(a);
+document.getElementById("close-all").addEventListener("click", () => {
+  chrome.tabs.query({}, (tabs) => {
+    const ids = tabs.filter(tab => !tab.pinned).map(tab => tab.id);
+    if (ids.length) chrome.tabs.remove(ids);
+    window.close();
   });
-}
+});
