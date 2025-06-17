@@ -100,6 +100,24 @@
     label {
       font-size: 13px;
     }
+
+    #pwindow {
+      display: none;
+      position: absolute;
+      width: 250px;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 6px;
+      z-index: 1000;
+    }
+
+    #pwindow-text {
+    	cursor: pointer; 
+    	font-style: italic;
+    }
   </style>
 </head>
 <body>
@@ -109,15 +127,21 @@
   <button id="close-right">Close Tabs to the Right</button>
   <button id="close-other-windows">Close Other Windows</button>
   <button id="close-all">Close All Tabs</button>
-  <button id="theme-switch" class="theme-toggle">Switch Theme</button>
 
-  <div class="toggle-container">
-    <label for="include-pinned">Include pinned tabs</label>
-    <label class="switch">
-      <input type="checkbox" id="include-pinned">
-      <span class="slider"></span>
-    </label>
+  <div id="pwindow">
+  	<button id="theme-switch" class="theme-toggle">Switch Theme</button>
+  
+  	<div class="toggle-container">
+    	<label for="include-pinned">Include pinned tabs</label>
+    	<label class="switch">
+      	<input type="checkbox" id="include-pinned">
+      	<span class="slider"></span>
+    	</label>
+  	</div>
   </div>
+  
+  <p id="pwindow-text">Open Settings</p>
+  
   <script src="popup.js"></script>
 </body>
 </html>
