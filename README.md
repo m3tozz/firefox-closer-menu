@@ -12,9 +12,7 @@ Tab Closer is a simple Firefox extension that helps you manage your browser tabs
 
 | Dark Mode | Light Mode |
 |-----------|------------|
-| <img src="https://github.com/user-attachments/assets/a9b641bf-ad8c-47af-9067-86f45596be8f" width="300"> | <img src="https://github.com/user-attachments/assets/313fc898-764e-401c-8516-0eb685fa4590" width="300"> |
-
-
+| <img src="https://github.com/user-attachments/assets/bfe3274c-c281-4dba-b0f6-19e4139d076b" width="300"> | <img src="https://github.com/user-attachments/assets/71359e67-8410-4deb-913a-a99008d56b23" width="300"> |
 
 ----------------------------------------------------------------------
 
