@@ -1,76 +1,71 @@
-function setTheme(theme) {
-  const body = document.body;
-  const themeSwitch = document.getElementById("theme-switch");
 
-  if (theme === "dark") {
-    body.classList.add("dark");
-    themeSwitch.textContent = "Switch to light theme";
-  } else {
-    body.classList.remove("dark");
-    themeSwitch.textContent = "Switch to dark theme";
-  }
-
-  localStorage.setItem("theme", theme);
+function includePinned() {
+  return document.getElementById("include-pinned").checked;
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  const savedTheme = localStorage.getItem("theme") || "light";
-  setTheme(savedTheme);
-
-  document.getElementById("theme-switch").addEventListener("click", () => {
-    const isDark = document.body.classList.contains("dark");
-    setTheme(isDark ? "light" : "dark");
-  });
-
-  document.getElementById("close-others").addEventListener("click", () => {
-    chrome.tabs.query({active: true, currentWindow: true}, ([activeTab]) => {
-      chrome.tabs.query({currentWindow: true}, (tabs) => {
-        const ids = tabs.filter(tab => tab.id !== activeTab.id && !tab.pinned).map(tab => tab.id);
-        chrome.tabs.remove(ids);
-        window.close();
-      });
-    });
-  });
-
-  document.getElementById("close-left").addEventListener("click", () => {
-    chrome.tabs.query({active: true, currentWindow: true}, ([activeTab]) => {
-      chrome.tabs.query({currentWindow: true}, (tabs) => {
-        const ids = tabs.filter(tab => tab.index < activeTab.index && !tab.pinned).map(tab => tab.id);
-        chrome.tabs.remove(ids);
-        window.close();
-      });
-    });
-  });
-
-  document.getElementById("close-right").addEventListener("click", () => {
-    chrome.tabs.query({active: true, currentWindow: true}, ([activeTab]) => {
-      chrome.tabs.query({currentWindow: true}, (tabs) => {
-        const ids = tabs.filter(tab => tab.index > activeTab.index && !tab.pinned).map(tab => tab.id);
-        chrome.tabs.remove(ids);
-        window.close();
-      });
-    });
-  });
-
-  document.getElementById("close-other-windows").addEventListener("click", () => {
-    chrome.windows.getCurrent((currentWindow) => {
-      chrome.windows.getAll({populate: true}, (windows) => {
-        windows.forEach(win => {
-          if (win.id !== currentWindow.id) {
-            const ids = win.tabs.filter(tab => !tab.pinned).map(tab => tab.id);
-            chrome.tabs.remove(ids);
-          }
-        });
-        window.close();
-      });
-    });
-  });
-
-  document.getElementById("close-all").addEventListener("click", () => {
-    chrome.tabs.query({}, (tabs) => {
-      const ids = tabs.filter(tab => !tab.pinned).map(tab => tab.id);
-      chrome.tabs.remove(ids);
-      window.close();
-    });
-  });
+document.getElementById("close-others").addEventListener("click", async () => {
+  const [activeTab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  const allTabs = await chrome.tabs.query({ currentWindow: true });
+  const tabsToClose = allTabs.filter(tab => tab.id !== activeTab.id && (includePinned() || !tab.pinned));
+  const ids = tabsToClose.map(tab => tab.id);
+  if (ids.length) chrome.tabs.remove(ids);
 });
+
+document.getElementById("close-left").addEventListener("click", async () => {
+  const [activeTab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  const allTabs = await chrome.tabs.query({ currentWindow: true });
+  const tabsToClose = allTabs.filter(tab => tab.index < activeTab.index && (includePinned() || !tab.pinned));
+  const ids = tabsToClose.map(tab => tab.id);
+  if (ids.length) chrome.tabs.remove(ids);
+});
+
+document.getElementById("close-right").addEventListener("click", async () => {
+  const [activeTab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  const allTabs = await chrome.tabs.query({ currentWindow: true });
+  const tabsToClose = allTabs.filter(tab => tab.index > activeTab.index && (includePinned() || !tab.pinned));
+  const ids = tabsToClose.map(tab => tab.id);
+  if (ids.length) chrome.tabs.remove(ids);
+});
+
+document.getElementById("close-other-windows").addEventListener("click", async () => {
+  const currentWindow = await chrome.windows.getCurrent();
+  const allWindows = await chrome.windows.getAll();
+  const otherWindows = allWindows.filter(win => win.id !== currentWindow.id);
+  for (const win of otherWindows) {
+    chrome.windows.remove(win.id);
+  }
+});
+
+const themeButton = document.getElementById('theme-switch');
+
+function setTheme(dark) {
+  document.body.classList.toggle('dark', dark);
+  themeButton.textContent = dark ? 'Switch to Light Theme' : 'Switch to Dark Theme';
+  localStorage.setItem('darkTheme', dark ? '1' : '0');
+}
+
+themeButton.addEventListener('click', () => {
+  const dark = !document.body.classList.contains('dark');
+  setTheme(dark);
+});
+window.addEventListener('DOMContentLoaded', () => {
+  const savedTheme = localStorage.getItem('darkTheme') === '1';
+  setTheme(savedTheme);
+});
+
+function renderLinks() {
+  const list = document.getElementById("link-list");
+  list.innerHTML = "";
+  const links = JSON.parse(localStorage.getItem("savedLinks") || "[]");
+  links.forEach(url => {
+    const a = document.createElement("a");
+    a.href = url;
+    a.textContent = url.replace(/^https?:\/\//, "").slice(0, 30);
+    a.target = "_blank";
+    a.style.display = "block";
+    a.style.marginBottom = "4px";
+    a.style.color = "var(--text-color)";
+    a.style.fontSize = "13px";
+    list.appendChild(a);
+  });
+}
