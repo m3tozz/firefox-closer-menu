@@ -60,3 +60,29 @@ document.getElementById("close-all").addEventListener("click", () => {
     window.close();
   });
 });
+
+// pmenu
+const pwin_text = document.getElementById("pwindow-text");
+const pwindow = document.getElementById("pwindow");
+let windowOpen = false;
+
+pwin_text.addEventListener("click", () => {
+  windowOpen = !windowOpen;
+
+  if (windowOpen) {
+    pwindow.style.display = "block";
+
+    requestAnimationFrame(() => {
+      const textRect = pwin_text.getBoundingClientRect();
+      const winHeight = pwindow.offsetHeight;
+      const winWidth = pwindow.offsetWidth;
+
+      const centerLeft = textRect.left + (textRect.width / 2) - (winWidth / 2);
+
+      pwindow.style.top = `${textRect.top - winHeight - 10 + window.scrollY}px`;
+      pwindow.style.left = `${centerLeft}px`;
+    });
+  } else {
+    pwindow.style.display = "none";
+  }
+});
